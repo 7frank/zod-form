@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { ZodForm, ZodFormProps } from '../src';
 import { z } from 'zod';
 import { dummyFormTranslation } from '../src/utils';
-import './tw.css';
+import './index.css'
 
 const meta: Meta = {
   title: 'Welcome',

@@ -50,7 +50,7 @@ export function enumCellFactory<T extends {}>({
     true
   );
   return (
-    <Fragment key={index}>
+    <div key={index}>
       <label
         className={classnames('block text-gray-700 text-sm font-bold mb-2', {
           'text-lime-600': indicateSuccess,
@@ -74,7 +74,7 @@ export function enumCellFactory<T extends {}>({
           <option value={value.toString()}>{value}</option>
         ))}
       </select>
-    </Fragment>
+    </div>
   );
 }
 
@@ -95,7 +95,7 @@ export function booleanCellFactory<T extends {}>({
     true
   );
   return (
-    <Fragment key={index}>
+    <div key={index}>
       <label
         className={classnames('block text-gray-700 text-sm font-bold mb-2', {
           'text-lime-600': indicateSuccess,
@@ -117,7 +117,7 @@ export function booleanCellFactory<T extends {}>({
           formikValues.setFieldValue(name.toString(), e.target?.checked);
         }}
       />
-    </Fragment>
+    </div>
   );
 }
 
@@ -142,7 +142,7 @@ export function defaultCellFactory<T extends {}>({
   );
 
   return (
-    <Fragment key={index}>
+    <div key={index}>
       <label
         className={classnames('text-sm font-bold', {
           'text-lime-600': indicateSuccess,
@@ -162,6 +162,6 @@ export function defaultCellFactory<T extends {}>({
         placeholder={placeholder}
         type={type == 'ZodNumber' ? 'number' : 'text'}
       />
-    </Fragment>
+    </div>
   );
 }
