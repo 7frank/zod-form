@@ -1,23 +1,14 @@
 import React, { Props } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { ZodForm, ZodFormProps } from '../src';
+import { ZodForm, ZodFormValues, ZodFormValuesProps } from '../src';
 import { z } from 'zod';
 import { dummyFormTranslation } from '../src/utils';
-import './index.css'
+import './index.css';
 
 const meta: Meta = {
   title: 'Welcome',
-  component: ZodForm,
-  argTypes: {
-    children: {
-      control: {
-        type: 'text',
-      },
-    },
-  },
-  parameters: {
-    controls: { expanded: true },
-  },
+  component: ZodFormValues,
+  parameters: {},
 };
 
 export default meta;
@@ -31,12 +22,10 @@ export const Default = Template.bind({});
 Default.args = {};
 
 const exampleSchema = z.object({
-  validFrom: z.string(),
-  name: z.string(),
-  category: z.enum(['first category', 'another category', 'more']),
-
+  name: z.string().min(3),
+  category: z.enum(['first category', 'another category', 'other']),
   isActive: z.boolean(),
-  numberOfParticipants: z.number(),
+  numberOfParticipants: z.number().min(2),
 });
 
 type ExampleType = z.infer<typeof exampleSchema>;
@@ -52,13 +41,42 @@ const routeFormTranslation = dummyFormTranslation(
 
 export function AnExampleForm() {
   return (
-    <ZodForm
-      className="grid grid-cols-6 gap-4 m-4"
-      disabled={false}
-      initialValues={{}}
-      translation={routeFormTranslation}
-      onSubmit={console.log}
-      schema={exampleSchema}
-    ></ZodForm>
+    <ZodForm>
+      <ZodFormValues
+        className="grid"
+        disabled={false}
+        initialValues={{ category: 'other' }}
+        translation={routeFormTranslation}
+        onSubmit={console.log}
+        schema={exampleSchema}
+      ></ZodFormValues>
+    </ZodForm>
+  );
+}
+
+/**
+ *
+ * @returns we might need a hook / context within ZodForm to trigger submit & partia validation
+ */
+export function AnFormWithTwoSections() {
+  return (
+    <ZodForm>
+      <ZodFormValues
+        className="grid"
+        disabled={false}
+        initialValues={{ category: 'other' }}
+        translation={routeFormTranslation}
+        onSubmit={console.log}
+        schema={exampleSchema}
+      ></ZodFormValues>
+      <ZodFormValues
+        className="grid"
+        disabled={false}
+        initialValues={{ category: 'first category' }}
+        translation={routeFormTranslation}
+        onSubmit={console.log}
+        schema={exampleSchema}
+      ></ZodFormValues>
+    </ZodForm>
   );
 }

@@ -1,6 +1,25 @@
- label
- {
-   font-weight: bold;
+label {
+  font-weight: bold;
+  display: block;
+}
 
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
- }
+.grid > div {
+  margin: 1em;
+}
+
+.danger {
+  color: red;
+}
+
+.success {
+  color: lightgreen;
+}
+
+.neutral {
+  color: lightgreen;
+}

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import { FormikProps } from 'formik';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ReactNode } from 'react';
 import { ZodFirstPartyTypeKind } from 'zod';
 import { computeFormElementState } from './utils';
@@ -42,7 +42,6 @@ export function enumCellFactory<T extends {}>({
   placeholder,
   values,
 }: FactoryType<T>) {
-  const { severity } = computeFormElementState<T>(formikValues, name, disabled);
   const { indicateError, indicateSuccess } = computeFormElementState<T>(
     formikValues,
     name,
@@ -53,9 +52,9 @@ export function enumCellFactory<T extends {}>({
     <div key={index}>
       <label
         className={classnames('block text-gray-700 text-sm font-bold mb-2', {
-          'text-lime-600': indicateSuccess,
-          'text-red-600': indicateError,
-          'text-gray-400': disabled,
+          success: indicateSuccess,
+          danger: indicateError,
+          neutral: disabled,
         })}
       >
         {label}
@@ -67,13 +66,13 @@ export function enumCellFactory<T extends {}>({
         onChange={(e) => {
           formikValues.setFieldValue(name.toString(), e.target?.value);
         }}
-        severity={severity}
         value={formikValues.values[name] as any}
       >
         {values?.map((value) => (
           <option value={value.toString()}>{value}</option>
         ))}
       </select>
+      <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>
   );
 }
@@ -98,9 +97,9 @@ export function booleanCellFactory<T extends {}>({
     <div key={index}>
       <label
         className={classnames('block text-gray-700 text-sm font-bold mb-2', {
-          'text-lime-600': indicateSuccess,
-          'text-red-600': indicateError,
-          'text-gray-400': disabled,
+          success: indicateSuccess,
+          danger: indicateError,
+          neutral: disabled,
         })}
       >
         {label}
@@ -117,6 +116,7 @@ export function booleanCellFactory<T extends {}>({
           formikValues.setFieldValue(name.toString(), e.target?.checked);
         }}
       />
+      <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>
   );
 }
@@ -145,9 +145,9 @@ export function defaultCellFactory<T extends {}>({
     <div key={index}>
       <label
         className={classnames('text-sm font-bold', {
-          'text-lime-600': indicateSuccess,
-          'text-red-600': indicateError,
-          'text-gray-400': disabled,
+          success: indicateSuccess,
+          danger: indicateError,
+          neutral: disabled,
         })}
       >
         {label}
@@ -157,11 +157,16 @@ export function defaultCellFactory<T extends {}>({
         disabled={disabled}
         name={name as any}
         onChange={(e) => {
-          formikValues.setFieldValue(name.toString(), e.target?.checked);
+          const val = e.target?.value;
+          formikValues.setFieldValue(
+            name.toString(),
+            type == 'ZodNumber' ? Number(val) : val
+          );
         }}
         placeholder={placeholder}
         type={type == 'ZodNumber' ? 'number' : 'text'}
       />
+      <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>
   );
 }

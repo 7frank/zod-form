@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { ConnectedFocusError } from 'focus-formik-error';
 import { Formik } from 'formik';
@@ -17,16 +17,16 @@ export type GenericFormTranslation<T> = Record<
   { label: string; description: string }
 >;
 
-export interface ZodFormProps<S extends ZodRawShape, T> {
+export interface ZodFormValuesProps<S extends ZodRawShape, T> {
   disabled?: boolean;
 
   initialValues: Partial<T>;
   translation: GenericFormTranslation<T>;
-  onSubmit?: (values: T) => void;
   onValidate?: (isValid: boolean, values: T) => void;
   schema: ZodObject<S> | ZodArray<ZodObject<S>>;
   factories?: (defaults: FactoriesRecord<T>) => FactoriesRecord<T>;
   className?: string;
+  onSubmit?: (values: any) => void;
 }
 
 /**
@@ -40,16 +40,16 @@ export interface ZodFormProps<S extends ZodRawShape, T> {
     e.g. type TestType = z.infer<typeof schema>;
  * 
  */
-export function ZodForm<S extends ZodRawShape, T>({
+export function ZodFormValues<S extends ZodRawShape, T>({
   disabled = false,
   schema,
   initialValues = {},
   onValidate,
-  onSubmit,
   translation,
   factories = () => ZodFormFactories,
   className,
-}: ZodFormProps<S, T>) {
+  onSubmit,
+}: ZodFormValuesProps<S, T>) {
   // we currently only support forms that have an object shape as top level as other less complex forms are out of scope
   const canBeInitialized = schema._def.typeName == 'ZodObject';
 
@@ -103,14 +103,40 @@ export function ZodForm<S extends ZodRawShape, T>({
               });
             })}
           </div>
-          {!disabled && onSubmit && (
-            <div className="flex items-center justify-between m-4">
-              <span></span>
-              <button type="submit">Absenden</button>
-            </div>
-          )}
         </form>
       )}
     </Formik>
+  );
+}
+
+/**
+ * Example form wrapper. use ZodFormValues
+ */
+export function ZodForm({
+  children,
+  onSubmit,
+  disabled = false,
+}: {
+  children: ReactNode;
+  onSubmit?: (values: any) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <form>
+      {children}
+      {!disabled && (
+        <div className="flex items-center justify-between m-4">
+          <span></span>
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            Absenden
+          </button>
+        </div>
+      )}
+    </form>
   );
 }
