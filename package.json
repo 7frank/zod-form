@@ -3,6 +3,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "homepage": "http://7frank.github.io/zod-form",
   "files": [
     "dist",
     "src"
@@ -20,7 +21,8 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "predeploy": "npm run build-storybook",    "deploy-storybook": "gh-pages -d storybook-static"   
   },
   "peerDependencies": {
     "react": ">=16"
@@ -63,6 +65,7 @@
     "classnames": "^2.3.1",
     "focus-formik-error": "^1.1.0",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.3",
     "husky": "^7.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
