@@ -115,6 +115,7 @@ export function booleanCellFactory<T extends {}>({
         onChange={(e) => {
           formikValues.setFieldValue(name.toString(), e.target?.checked);
         }}
+        checked={formikValues.values[name] as any}
       />
       <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>
@@ -165,6 +166,7 @@ export function defaultCellFactory<T extends {}>({
         }}
         placeholder={placeholder}
         type={type == 'ZodNumber' ? 'number' : 'text'}
+        value={formikValues.values[name] as any}
       />
       <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>

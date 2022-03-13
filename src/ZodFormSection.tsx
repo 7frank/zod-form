@@ -25,7 +25,7 @@ export interface ZodFormSectionProps<S extends ZodRawShape, T> {
   schema: ZodObject<S> | ZodArray<ZodObject<S>>;
   factories?: (defaults: FactoriesRecord<T>) => FactoriesRecord<T>;
   className?: string;
-  onSubmit?: (values: any) => void;
+
   sectionName: string;
 }
 
@@ -48,7 +48,7 @@ export function ZodFormSection<S extends ZodRawShape, T>({
   translation,
   factories = () => ZodFormFactories,
   className,
-  onSubmit,
+
   sectionName,
 }: ZodFormSectionProps<S, T>) {
   const { registerSection } = ZodFormikContainer.useContainer();
@@ -57,7 +57,7 @@ export function ZodFormSection<S extends ZodRawShape, T>({
     validationSchema: toFormikValidationSchema(schema),
     initialValues: initialValues as T,
     onSubmit: (v) => {
-      onSubmit?.(v);
+      // Note: will not be used
     },
   });
 

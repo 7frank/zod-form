@@ -1,11 +1,12 @@
-import React from 'react';
-import { ZodFormProps } from './index';
+import React, { ReactNode } from 'react';
+
 import { ZodFormikContainer } from './ZodFormikContainer';
 
-/**
- * Example form wrapper. use ZodFormValues
- 
- */
+export interface ZodFormProps {
+  children: ReactNode;
+  onSubmit?: (values: any) => void;
+  disabled?: boolean;
+}
 
 export function ZodFormInner({
   children,
@@ -24,7 +25,7 @@ export function ZodFormInner({
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              submitForm();
+              submitForm().then(console.log).catch(console.error);
             }}
           >
             Absenden

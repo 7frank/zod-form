@@ -1,4 +1,4 @@
-import React, { Props } from 'react';
+import React, { Props, useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { ZodForm } from '../src';
 import { ZodFormSection } from '../src/ZodFormSection';
@@ -26,7 +26,7 @@ const firstSchema = z.object({
   name: z.string().min(3),
   category: z.enum(['freelancer', 'student', 'company']),
   isActive: z.boolean(),
-  numberOfParticipants: z.number().min(2),
+  numberOfParticipants: z.number().min(1),
 });
 
 const secondSchema = z.object({
@@ -42,49 +42,37 @@ const firstSchemaTranslation = dummyFormTranslation(
 
 const secondSchemaTranslation = dummyFormTranslation('isCookieConsent');
 
-export function AnExampleForm() {
-  return (
-    <ZodForm>
-      <ZodFormSection
-        sectionName="section1"
-        className="grid"
-        disabled={false}
-        initialValues={{ category: 'company' }}
-        translation={firstSchemaTranslation}
-        onSubmit={console.log}
-        schema={firstSchema}
-      ></ZodFormSection>
-    </ZodForm>
-  );
-}
+export function AFormWithTwoSections() {
+  const [data, setData] = useState();
 
-/**
- *
- * @returns we might need a hook / context within ZodForm to trigger submit & partia validation
- */
-export function AnFormWithTwoSections() {
   return (
-    <ZodForm>
-      <ZodFormSection
-        sectionName="section1"
-        className="grid"
-        disabled={false}
-        initialValues={{ category: 'company' }}
-        translation={firstSchemaTranslation}
-        onValidate={console.log}
-        onSubmit={console.log}
-        schema={firstSchema}
-      ></ZodFormSection>
-      <ZodFormSection
-        sectionName="section2"
-        className="grid"
-        disabled={false}
-        initialValues={{}}
-        translation={secondSchemaTranslation}
-        onValidate={console.log}
-        onSubmit={console.log}
-        schema={secondSchema}
-      ></ZodFormSection>
-    </ZodForm>
+    <>
+      <ZodForm onSubmit={setData}>
+        <ZodFormSection
+          sectionName="section1"
+          className="grid"
+          disabled={false}
+          initialValues={{
+            name: '7frank',
+            numberOfParticipants: 1,
+            isActive: true,
+            category: 'company',
+          }}
+          translation={firstSchemaTranslation}
+          onValidate={console.log}
+          schema={firstSchema}
+        ></ZodFormSection>
+        <ZodFormSection
+          sectionName="section2"
+          className="grid"
+          disabled={false}
+          initialValues={{}}
+          translation={secondSchemaTranslation}
+          onValidate={console.log}
+          schema={secondSchema}
+        ></ZodFormSection>
+      </ZodForm>
+      <pre>{JSON.stringify(data, null, '  ')}</pre>
+    </>
   );
 }
