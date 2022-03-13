@@ -4,7 +4,7 @@ Generate forms from zod.js schemas
 
 Note: forms are hard - only a case study as of now
 
-see it in action at https://7frank.github.io/zod-form/?path=/story/welcome--an-example-form
+see it in action at https://7frank.github.io/zod-form/?path=/docs/welcome--a-form-with-two-sections
 
 ```typescript
 const firstSchema = z.object({
