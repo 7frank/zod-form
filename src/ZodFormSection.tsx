@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FocusError } from 'focus-formik-error';
 import { useFormik } from 'formik';
 import { ZodArray, ZodObject, ZodObjectDef, ZodRawShape } from 'zod';
@@ -25,7 +25,6 @@ export interface ZodFormSectionProps<S extends ZodRawShape, T> {
   schema: ZodObject<S> | ZodArray<ZodObject<S>>;
   factories?: (defaults: FactoriesRecord<T>) => FactoriesRecord<T>;
   className?: string;
-
   sectionName: string;
 }
 
@@ -48,7 +47,6 @@ export function ZodFormSection<S extends ZodRawShape, T>({
   translation,
   factories = () => ZodFormFactories,
   className,
-
   sectionName,
 }: ZodFormSectionProps<S, T>) {
   const { registerSection } = ZodFormikContainer.useContainer();
@@ -63,7 +61,7 @@ export function ZodFormSection<S extends ZodRawShape, T>({
 
   useEffect(() => {
     if (formikValues) registerSection(sectionName, { formik: formikValues });
-  }, []);
+  }, [formikValues]);
 
   // we currently only support forms that have an object shape as top level as other less complex forms are out of scope
   const canBeInitialized = schema._def.typeName == 'ZodObject';

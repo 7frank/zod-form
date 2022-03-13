@@ -11,7 +11,7 @@ async function submitForm(sections: Record<string, Section>) {
   return Promise.all(
     Object.entries(sections).map(([name, section]) =>
       section.formik.submitForm().then(() => {
-        console.log('section ', name, section.formik.values);
+        console.log('submitForm section ', name, section.formik.values);
         return section.formik.values;
       })
     )
@@ -21,7 +21,8 @@ async function submitForm(sections: Record<string, Section>) {
 function useZodFormik() {
   let [sections, setSections] = useState<Record<string, Section>>({});
   const registerSection = (key: string, section: Section) =>
-    setSections((s) => ({ ...s, [key]: section }));
+    (sections[key] = section);
+  // setSections((s) => ({ ...s, [key]: section }));
 
   return { sections, registerSection, submitForm: () => submitForm(sections) };
 }
