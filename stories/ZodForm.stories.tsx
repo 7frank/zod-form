@@ -1,6 +1,7 @@
 import React, { Props } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { ZodForm, ZodFormValues } from '../src';
+import { ZodForm } from '../src';
+import { ZodFormValues } from '../src/ZodFormValues';
 import { z } from 'zod';
 import { dummyFormTranslation } from '../src/utils';
 import './index.css';
@@ -21,34 +22,47 @@ export const Default = Template.bind({});
 
 Default.args = {};
 
-const exampleSchema = z.object({
+const firstSchema = z.object({
   name: z.string().min(3),
-  category: z.enum(['first category', 'another category', 'other']),
+  category: z.enum(['freelancer', 'student', 'company']),
   isActive: z.boolean(),
   numberOfParticipants: z.number().min(2),
 });
 
-type ExampleType = z.infer<typeof exampleSchema>;
 
-const routeFormTranslation = dummyFormTranslation(
-  'validFrom',
+const secondSchema = z.object({
+
+  isCookieConsent: z.boolean(),
+
+});
+
+
+
+
+const firstSchemaTranslation = dummyFormTranslation(
   'name',
-
   'category',
   'isActive',
   'numberOfParticipants'
+);
+
+
+const secondSchemaTranslation = dummyFormTranslation(
+  'isCookieConsent',
+
 );
 
 export function AnExampleForm() {
   return (
     <ZodForm>
       <ZodFormValues
+        sectionName="section1"
         className="grid"
         disabled={false}
-        initialValues={{ category: 'other' }}
-        translation={routeFormTranslation}
+        initialValues={{category: 'company' }}
+        translation={firstSchemaTranslation}
         onSubmit={console.log}
-        schema={exampleSchema}
+        schema={firstSchema}
       ></ZodFormValues>
     </ZodForm>
   );
@@ -62,22 +76,24 @@ export function AnFormWithTwoSections() {
   return (
     <ZodForm>
       <ZodFormValues
+        sectionName="section1"
         className="grid"
         disabled={false}
-        initialValues={{ category: 'other' }}
-        translation={routeFormTranslation}
+        initialValues={{ category: 'company' }}
+        translation={firstSchemaTranslation}
         onValidate={console.log}
         onSubmit={console.log}
-        schema={exampleSchema}
+        schema={firstSchema}
       ></ZodFormValues>
       <ZodFormValues
+        sectionName="section2"
         className="grid"
         disabled={false}
-        initialValues={{ category: 'first category' }}
-        translation={routeFormTranslation}
+        initialValues={{ }}
+        translation={secondSchemaTranslation}
         onValidate={console.log}
         onSubmit={console.log}
-        schema={exampleSchema}
+        schema={secondSchema}
       ></ZodFormValues>
     </ZodForm>
   );
