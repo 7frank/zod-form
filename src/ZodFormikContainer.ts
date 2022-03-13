@@ -11,8 +11,7 @@ async function submitForm(sections: Record<string, Section>) {
   return Promise.all(
     Object.entries(sections).map(([name, section]) =>
       section.formik.submitForm().then(() => {
-        console.log('submitForm section ', name, section.formik.values);
-        return section.formik.values;
+        return { section: name, values: section.formik.values };
       })
     )
   );

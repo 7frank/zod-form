@@ -32,12 +32,21 @@ export function AFormWithTwoSections() {
           initialValues={{}}
           translation={firstSchemaTranslation}
           schema={firstSchema}
+          factories={() => ZodFormFactories},
         ></ZodFormSection>
       </ZodForm>
       <pre> data: {JSON.stringify(data, null, '  ')}</pre>
     </>
   );
 }
+```
+
+override the default cell factories with your own implementation via
+
+```
+  ...
+  factories={() => ZodFormFactories},
+  ...
 ```
 
 # Development
