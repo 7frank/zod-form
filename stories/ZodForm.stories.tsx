@@ -1,6 +1,6 @@
 import React, { Props } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { ZodForm, ZodFormValues, ZodFormValuesProps } from '../src';
+import { ZodForm, ZodFormValues } from '../src';
 import { z } from 'zod';
 import { dummyFormTranslation } from '../src/utils';
 import './index.css';
@@ -66,6 +66,7 @@ export function AnFormWithTwoSections() {
         disabled={false}
         initialValues={{ category: 'other' }}
         translation={routeFormTranslation}
+        onValidate={console.log}
         onSubmit={console.log}
         schema={exampleSchema}
       ></ZodFormValues>
@@ -74,6 +75,7 @@ export function AnFormWithTwoSections() {
         disabled={false}
         initialValues={{ category: 'first category' }}
         translation={routeFormTranslation}
+        onValidate={console.log}
         onSubmit={console.log}
         schema={exampleSchema}
       ></ZodFormValues>
