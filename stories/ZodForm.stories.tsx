@@ -47,7 +47,12 @@ export function AFormWithTwoSections() {
 
   return (
     <>
-      <ZodForm onSubmit={setData}>
+      <ZodForm
+        onSubmit={(values) => {
+          console.log('submitting');
+          setData(values);
+        }}
+      >
         <ZodFormSection
           sectionName="section1"
           className="grid"
@@ -59,7 +64,7 @@ export function AFormWithTwoSections() {
             category: 'company',
           }}
           translation={firstSchemaTranslation}
-          onValidate={console.log}
+          onValidate={(...args) => console.log('validating section1', ...args)}
           schema={firstSchema}
         ></ZodFormSection>
         <ZodFormSection
@@ -68,11 +73,11 @@ export function AFormWithTwoSections() {
           disabled={false}
           initialValues={{}}
           translation={secondSchemaTranslation}
-          onValidate={console.log}
+          onValidate={(...args) => console.log('validating section2', ...args)}
           schema={secondSchema}
         ></ZodFormSection>
       </ZodForm>
-      <pre> data: {JSON.stringify(data, null, '  ')}</pre>
+      <pre>{JSON.stringify(data, null, '  ')}</pre>
     </>
   );
 }

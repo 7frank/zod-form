@@ -7,7 +7,6 @@ Note: forms are hard - only a case study as of now
 see it in action at https://7frank.github.io/zod-form/?path=/story/welcome--an-example-form
 
 ```typescript
-
 const firstSchema = z.object({
   name: z.string().min(3),
   category: z.enum(['freelancer', 'student', 'company']),
@@ -40,8 +39,6 @@ export function AFormWithTwoSections() {
   );
 }
 ```
-
-
 
 # Development
 
