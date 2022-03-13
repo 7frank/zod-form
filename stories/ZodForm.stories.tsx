@@ -72,7 +72,7 @@ export function AFormWithTwoSections() {
           schema={secondSchema}
         ></ZodFormSection>
       </ZodForm>
-      <pre>{JSON.stringify(data, null, '  ')}</pre>
+      <pre> data: {JSON.stringify(data, null, '  ')}</pre>
     </>
   );
 }

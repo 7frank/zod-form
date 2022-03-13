@@ -51,7 +51,7 @@ export function enumCellFactory<T extends {}>({
   return (
     <div key={index}>
       <label
-        className={classnames('block text-gray-700 text-sm font-bold mb-2', {
+        className={classnames({
           success: indicateSuccess,
           danger: indicateError,
           neutral: disabled,
@@ -96,7 +96,7 @@ export function booleanCellFactory<T extends {}>({
   return (
     <div key={index}>
       <label
-        className={classnames('block text-gray-700 text-sm font-bold mb-2', {
+        className={classnames({
           success: indicateSuccess,
           danger: indicateError,
           neutral: disabled,
@@ -106,16 +106,12 @@ export function booleanCellFactory<T extends {}>({
       </label>
       <input
         type="checkbox"
-        className={
-          'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-        }
-        key={index}
         disabled={disabled}
         name={name as any}
         onChange={(e) => {
           formikValues.setFieldValue(name.toString(), e.target?.checked);
         }}
-        checked={formikValues.values[name] as any}
+        checked={Boolean(formikValues.values[name] as any)}
       />
       <div> {indicateError && <>{formikValues.errors[name]}</>} </div>
     </div>
@@ -154,7 +150,6 @@ export function defaultCellFactory<T extends {}>({
         {label}
       </label>
       <input
-        key={index}
         disabled={disabled}
         name={name as any}
         onChange={(e) => {

@@ -25,7 +25,7 @@ export function ZodFormInner({
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              submitForm().then(console.log).catch(console.error);
+              submitForm().then(onSubmit).catch(console.error);
             }}
           >
             Absenden

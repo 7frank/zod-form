@@ -14,7 +14,12 @@ function useZodFormik() {
 
   async function submitForm() {
     return Promise.all(
-      Object.values(sections).map((section) => section.formik.submitForm())
+      Object.entries(sections).map(([name, section]) =>
+        section.formik.submitForm().then(() => {
+          console.log('section ', name, section.formik.values);
+          return section.formik.values;
+        })
+      )
     );
   }
 
