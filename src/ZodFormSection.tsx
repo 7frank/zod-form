@@ -3,21 +3,20 @@ import { FocusError } from 'focus-formik-error';
 import { useFormik } from 'formik';
 import { ZodArray, ZodObject, ZodObjectDef, ZodRawShape } from 'zod';
 import {
-    FactoriesRecord,
+  FactoriesRecord,
   FactoryType,
-  ZodFormFactories
+  ZodFormFactories,
 } from './ZodFormFactories';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { Missing } from './bits';
-import {  ZodFormikContainer } from './index';
+import { ZodFormikContainer } from './ZodFormikContainer';
 
 export type GenericFormTranslation<T> = Record<
   keyof T,
   { label: string; description: string }
 >;
 
-
-export interface ZodFormValuesProps<S extends ZodRawShape, T> {
+export interface ZodFormSectionProps<S extends ZodRawShape, T> {
   disabled?: boolean;
 
   initialValues: Partial<T>;
@@ -30,7 +29,6 @@ export interface ZodFormValuesProps<S extends ZodRawShape, T> {
   sectionName: string;
 }
 
-
 /**
  * This form uses the translations to create one input field per translation element. You need to make sure that your translations match your zod-schema.
  * Note: This is no jack of all trades frm implementation. If any it is sufficient for nrarrow scenarios where flat objects contains enums, numbers, text, or boolean.
@@ -42,9 +40,17 @@ export interface ZodFormValuesProps<S extends ZodRawShape, T> {
     e.g. type TestType = z.infer<typeof schema>;
  * TODO add sections = Record<string,{t,schema,title,description}>
  */
-export function ZodFormValues<S extends ZodRawShape, T>({
-  disabled = false, schema, initialValues = {}, onValidate, translation, factories = () => ZodFormFactories, className, onSubmit, sectionName,
-}: ZodFormValuesProps<S, T>) {
+export function ZodFormSection<S extends ZodRawShape, T>({
+  disabled = false,
+  schema,
+  initialValues = {},
+  onValidate,
+  translation,
+  factories = () => ZodFormFactories,
+  className,
+  onSubmit,
+  sectionName,
+}: ZodFormSectionProps<S, T>) {
   const { registerSection } = ZodFormikContainer.useContainer();
 
   const formikValues = useFormik({
@@ -52,12 +58,11 @@ export function ZodFormValues<S extends ZodRawShape, T>({
     initialValues: initialValues as T,
     onSubmit: (v) => {
       onSubmit?.(v);
-    }
+    },
   });
 
   useEffect(() => {
-    if (formikValues)
-      registerSection(sectionName, { formik: formikValues });
+    if (formikValues) registerSection(sectionName, { formik: formikValues });
   }, []);
 
   // we currently only support forms that have an object shape as top level as other less complex forms are out of scope
@@ -103,7 +108,7 @@ export function ZodFormValues<S extends ZodRawShape, T>({
             label: translation[name].label,
             formikValues,
             name: name as any,
-            placeholder: translation[name].description
+            placeholder: translation[name].description,
           });
         })}
       </div>

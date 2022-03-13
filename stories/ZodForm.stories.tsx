@@ -1,14 +1,14 @@
 import React, { Props } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { ZodForm } from '../src';
-import { ZodFormValues } from '../src/ZodFormValues';
+import { ZodFormSection } from '../src/ZodFormSection';
 import { z } from 'zod';
 import { dummyFormTranslation } from '../src/utils';
 import './index.css';
 
 const meta: Meta = {
   title: 'Welcome',
-  component: ZodFormValues,
+  component: ZodFormSection,
   parameters: {},
 };
 
@@ -29,15 +29,9 @@ const firstSchema = z.object({
   numberOfParticipants: z.number().min(2),
 });
 
-
 const secondSchema = z.object({
-
   isCookieConsent: z.boolean(),
-
 });
-
-
-
 
 const firstSchemaTranslation = dummyFormTranslation(
   'name',
@@ -46,24 +40,20 @@ const firstSchemaTranslation = dummyFormTranslation(
   'numberOfParticipants'
 );
 
-
-const secondSchemaTranslation = dummyFormTranslation(
-  'isCookieConsent',
-
-);
+const secondSchemaTranslation = dummyFormTranslation('isCookieConsent');
 
 export function AnExampleForm() {
   return (
     <ZodForm>
-      <ZodFormValues
+      <ZodFormSection
         sectionName="section1"
         className="grid"
         disabled={false}
-        initialValues={{category: 'company' }}
+        initialValues={{ category: 'company' }}
         translation={firstSchemaTranslation}
         onSubmit={console.log}
         schema={firstSchema}
-      ></ZodFormValues>
+      ></ZodFormSection>
     </ZodForm>
   );
 }
@@ -75,7 +65,7 @@ export function AnExampleForm() {
 export function AnFormWithTwoSections() {
   return (
     <ZodForm>
-      <ZodFormValues
+      <ZodFormSection
         sectionName="section1"
         className="grid"
         disabled={false}
@@ -84,17 +74,17 @@ export function AnFormWithTwoSections() {
         onValidate={console.log}
         onSubmit={console.log}
         schema={firstSchema}
-      ></ZodFormValues>
-      <ZodFormValues
+      ></ZodFormSection>
+      <ZodFormSection
         sectionName="section2"
         className="grid"
         disabled={false}
-        initialValues={{ }}
+        initialValues={{}}
         translation={secondSchemaTranslation}
         onValidate={console.log}
         onSubmit={console.log}
         schema={secondSchema}
-      ></ZodFormValues>
+      ></ZodFormSection>
     </ZodForm>
   );
 }
